@@ -30,7 +30,7 @@ public class LocationStorage {
     
     public boolean addLocation(Location location) {
         for (Location l : this.locations) {
-            if (l.getAirportId() == location.getAirportId()) {
+            if (l.getAirportId().equals(location.getAirportId())) {
                 return false;
             }
         }
@@ -38,18 +38,18 @@ public class LocationStorage {
         return true;
     }
     
-    public Location getLocation(int id) {
+    public Location getLocation(String id) {
         for (Location location : this.locations) {
-            if (Integer.parseInt(location.getAirportId()) == id) {
+            if (location.getAirportId().equals(id)) {
                 return location;
             }
         }
         return null;
     }
     
-    public boolean delPlane(int id) {
+    public boolean delLocation(String id) {
         for (Location location : this.locations) {
-            if (Integer.parseInt(location.getAirportId()) == id) {
+            if (location.getAirportId().equals(id)) {
                 this.locations.remove(location);
                 return true;
             }

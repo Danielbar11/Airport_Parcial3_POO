@@ -96,7 +96,7 @@ public class PassengerController {
             }
             
             PassengerStorage passengerStorage = PassengerStorage.getInstance();            
-            Passenger passenger = PassengerStorage.getPassenger(longId);
+            Passenger passenger = passengerStorage.getPassenger(longId);
             
             if (passenger == null) {
                 return new Response("Person not found", Status.NOT_FOUND);
@@ -138,10 +138,17 @@ public class PassengerController {
                 return new Response("Country must be not empty", Status.BAD_REQUEST);
             }
             
+            passenger.setFirstname(firstname);
+            passenger.setLastname(lastname);
+            passenger.setBirthDate(dateBirthDate);
+            passenger.setCountryPhoneCode(intCountryPhoneCode);
+            passenger.setPhone(longPhone);
+            passenger.setCountry(country);
             
+            return new Response("Passenger data updated successfully", Status.OK);
             
-    } catch (Exception ex) {
+        } catch (Exception ex) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
-    
+    }
 }

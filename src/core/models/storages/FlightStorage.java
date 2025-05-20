@@ -30,7 +30,7 @@ public class FlightStorage {
     
     public boolean addFlight(Flight flight) {
         for (Flight f : this.flights) {
-            if (f.getId() == flight.getId()) {
+            if (f.getId().equals(flight.getId())) {
                 return false;
             }
         }
@@ -38,9 +38,9 @@ public class FlightStorage {
         return true;
     }
     
-    public Flight getFlight(int id) {
+    public Flight getFlight(String id) {
         for (Flight flight : this.flights) {
-            if (Integer.parseInt(flight.getId()) == id) {
+            if (flight.getId().equals(id)) {
                 return flight;
             }
         }

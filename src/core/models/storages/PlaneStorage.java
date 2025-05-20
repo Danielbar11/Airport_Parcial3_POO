@@ -30,17 +30,40 @@ public class PlaneStorage {
     
     public boolean addPlane(Plane plane) {
         for (Plane p : this.planes) {
-            if (p.getId() == plane.getId()) {
+            if (p.getId().equals(plane.getId())) {
                 return false;
             }
         }
+        //Comparacion de letras (como substrings) y numeros (como enteros) para que la lista quede ordenada por id
+        int index = 0;
+        while (index < planes.size()) {
+            String currentId = planes.get(index).getId();
+            String newId = plane.getId();
+
+            String lettersCurrent = currentId.substring(0, 2);
+            String lettersNew = newId.substring(0, 2);
+            int letterComparison = lettersCurrent.compareTo(lettersNew);
+
+            if (letterComparison > 0) {
+                break;
+            } else if (letterComparison == 0) {
+                int numberCurrent = Integer.parseInt(currentId.substring(2));
+                int numberNew = Integer.parseInt(newId.substring(2));
+
+                if (numberCurrent > numberNew) {
+                    break;
+                }
+            }
+            index++;
+        }
+        
         this.planes.add(plane);
         return true;
     }
     
-    public Plane getPlane(int id) {
+    public Plane getPlane(String id) {
         for (Plane plane : this.planes) {
-            if (Integer.parseInt(plane.getId()) == id) {
+            if (plane.getId().equals(id)) {
                 return plane;
             }
         }
@@ -49,7 +72,7 @@ public class PlaneStorage {
     
     public boolean delPlane(int id) {
         for (Plane plane : this.planes) {
-            if (Integer.parseInt(plane.getId()) == id) {
+            if (plane.getId().equals(id)) {
                 this.planes.remove(plane);
                 return true;
             }
