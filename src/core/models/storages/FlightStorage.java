@@ -34,9 +34,33 @@ public class FlightStorage {
                 return false;
             }
         }
-        this.flights.add(flight);
+
+        int index = 0;
+        while (index < flights.size()) {
+            String currentId = flights.get(index).getId();
+            String newId = flight.getId();
+
+            String lettersCurrent = currentId.substring(0, 3);
+            String lettersNew = newId.substring(0, 3);
+            int letterComparison = lettersCurrent.compareTo(lettersNew);
+
+            if (letterComparison > 0) {
+                break;
+            } else if (letterComparison == 0) {
+                int numberCurrent = Integer.parseInt(currentId.substring(3));
+                int numberNew = Integer.parseInt(newId.substring(3));
+
+                if (numberCurrent > numberNew) {
+                    break;
+                }
+            }
+            index++;
+        }
+
+        this.flights.add(index, flight);
         return true;
     }
+
     
     public Flight getFlight(String id) {
         for (Flight flight : this.flights) {

@@ -115,4 +115,8 @@ public class Flight {
         return passengers.size();
     }
     
+    public ArrayList<Passenger> getPassengers() {
+        return passengers;
+    }
+    
 }
