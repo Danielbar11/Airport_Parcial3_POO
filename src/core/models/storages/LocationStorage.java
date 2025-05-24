@@ -57,4 +57,8 @@ public class LocationStorage {
         return false;
     }
     
+    public ArrayList<Location> getAllLocations() {
+        return this.locations;
+    }
+    
 }

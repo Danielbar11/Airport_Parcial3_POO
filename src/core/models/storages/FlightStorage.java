@@ -81,4 +81,8 @@ public class FlightStorage {
         return false;
     }
     
+    public ArrayList<Flight> getAllFlights() {
+        return this.flights;
+    }
+    
 }

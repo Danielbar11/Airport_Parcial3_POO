@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package core.controllers;
 
 import core.controllers.utils.Response;
@@ -11,10 +7,7 @@ import core.models.storages.PassengerStorage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- *
- * @author ddbarraza
- */
+
 public class PassengerController {
     
     public static Response registerPassenger(String id, String firstname, String lastname, String year, String month, String day, String countryPhoneCode, String phone, String country) {
@@ -23,8 +16,10 @@ public class PassengerController {
             int intCountryPhoneCode, intYear, intMonth, intDay;
             
             try {
+                if (id.trim().equals("")) {
+                    return new Response("Id must be not empty", Status.BAD_REQUEST);
+                }
                 longId = Long.parseLong(id);
-                
                 if (longId < 0 || longId > 999_999_999_999_999L) {
                     return new Response("Id must be in the range 0 - 999999999999999", Status.BAD_REQUEST);
                 }
@@ -74,17 +69,23 @@ public class PassengerController {
             LocalDate birthDate = LocalDate.of(intYear, intMonth, intDay);
             
             try {
+                if (countryPhoneCode.trim().equals("")) {
+                    return new Response("Country Phone Code must be not empty", Status.BAD_REQUEST);
+                }
                 intCountryPhoneCode = Integer.parseInt(countryPhoneCode);
                 if (intCountryPhoneCode < 0 || intCountryPhoneCode > 999) {
-                    return new Response("Country Phone Code must be in range 0 - 999", Status.BAD_REQUEST);
+                    return new Response("Country Phone Code must be in range [0,999]", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
                 return new Response("Country Phone Code must be numeric", Status.BAD_REQUEST);
             }
             
             try {
+                if (phone.trim().equals("")) {
+                    return new Response("Phone must be not empty", Status.BAD_REQUEST);
+                }
                 longPhone = Long.parseLong(phone);
-                if (longId < 0 || longId > 99_999_999_999L) {
+                if (longPhone < 0 || longPhone > 99_999_999_999L) {
                     return new Response("Phone must be in the range 0 - 99999999999", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
@@ -112,8 +113,10 @@ public class PassengerController {
             int intCountryPhoneCode, intYear, intMonth, intDay;
             
             try {
-                longId = Long.parseLong(id);
-                
+                if (id.trim().equals("")) {
+                    return new Response("Id must be not empty", Status.BAD_REQUEST);
+                }
+                longId = Long.parseLong(id);               
                 if (longId < 0 || longId > 999_999_999_999_999L) {
                     return new Response("Id must be in the range 0 - 999999999999999", Status.BAD_REQUEST);
                 }
@@ -163,6 +166,9 @@ public class PassengerController {
             LocalDate birthDate = LocalDate.of(intYear, intMonth, intDay);
             
             try {
+                if (countryPhoneCode.trim().equals("")) {
+                    return new Response("Country Phone Code must be not empty", Status.BAD_REQUEST);
+                }
                 intCountryPhoneCode = Integer.parseInt(countryPhoneCode);
                 if (intCountryPhoneCode < 0 || intCountryPhoneCode > 999) {
                     return new Response("Country Phone Code must be in range 0 - 999", Status.BAD_REQUEST);
@@ -172,6 +178,9 @@ public class PassengerController {
             }
             
             try {
+                if (phone.trim().equals("")) {
+                    return new Response("Phone must be not empty", Status.BAD_REQUEST);
+                }
                 longPhone = Long.parseLong(phone);
                 if (longId < 0 || longId > 99_999_999_999L) {
                     return new Response("Phone must be in the range 0 - 99999999999", Status.BAD_REQUEST);
@@ -203,4 +212,7 @@ public class PassengerController {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    //get passenger
+    //set passenger id user combo box
 }

@@ -57,4 +57,8 @@ public class PassengerStorage {
         return false;
     }
     
+    public ArrayList<Passenger> getAllPassengers(){
+        return this.passengers;
+    }
+    
 }

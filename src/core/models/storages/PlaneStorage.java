@@ -80,4 +80,8 @@ public class PlaneStorage {
         return false;
     }
     
+    public ArrayList<Plane> getAllPlanes() {
+        return this.planes;
+    }
+    
 }

@@ -28,14 +28,14 @@ public class FlightController {
             int intHoursArrival, intMinutesArrival, intHoursScale, intMinutesScale;
             int intYear, intMonth, intDay, intHours, intMinutes;
             
-            if (id == null || !id.matches("[A-Z]{3}\\d{3}")) {
+            if (id.trim().equals("") || !id.matches("[A-Z]{3}\\d{3}")) {
                 return new Response("Invalid flight ID format. Must be XXXYYY", Status.BAD_REQUEST);
             }
             
             PlaneStorage planeStorage = PlaneStorage.getInstance();
             Plane plane = planeStorage.getPlane(planeId);
             if (plane == null) {
-                return new Response("A plane with that ID don't exists", Status.NOT_FOUND);
+                return new Response("Plane not found", Status.NOT_FOUND);
             }
             
             LocationStorage locationStorage = LocationStorage.getInstance();
@@ -119,7 +119,7 @@ public class FlightController {
             }
             
             FlightStorage flightStorage = FlightStorage.getInstance();
-            if (scaleLocationId == null){
+            if (scaleLocationId == null || scaleLocationId.trim().equals("")){
                 
                 if (!hoursDurationScale.equals("0") || !minutesDurationScale.equals("0")) {
                     return new Response("If no scale location is provided, scale duration must be 00:00", Status.BAD_REQUEST);
@@ -130,7 +130,6 @@ public class FlightController {
                 }
                 return new Response("Flight created successfully", Status.CREATED);
             } else {
-                
                 Location scaleLocation = locationStorage.getLocation(scaleLocationId);
                 if (scaleLocation == null) {
                     return new Response("Scale location don't exists", Status.BAD_REQUEST);
@@ -240,4 +239,9 @@ public class FlightController {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    //set flight id combo box
+    //set departure location
+    // set arrival location
+    // set scale location 
 }
