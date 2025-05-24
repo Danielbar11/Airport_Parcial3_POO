@@ -2,6 +2,8 @@ package core.models;
 
 import java.util.ArrayList;
 import core.models.abstracts.AbstractPlane;
+import core.models.services.IFlightManagementService;
+import core.models.services.PlaneServiceFactory;
 
 /**
  * Plane implementation following SOLID principles
@@ -46,9 +48,6 @@ public class Plane extends AbstractPlane {
     }
     
     // All getters remain exactly the same
-    public String getId() {
-        return super.getId();
-    }
 
     public String getBrand() {
         return brand;
