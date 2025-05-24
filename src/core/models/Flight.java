@@ -1,122 +1,57 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package core.models;
 
+import core.models.solid.flight.FlightRoute;
+import core.models.solid.passenger.PassengerManagement;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 /**
- *
+ * Single Responsibility Principle Applied:
+ * Flight class now only handles flight identity and basic data
+ * No passenger management, calculations, or scheduling logic
+ * 
  * @author edangulo
  */
 public class Flight {
     
     private final String id;
-    private ArrayList<Passenger> passengers;
-    private Plane plane;
-    private Location departureLocation;
-    private Location scaleLocation;
-    private Location arrivalLocation;
+    private final Plane plane;
+    private final FlightRoute route;
     private LocalDateTime departureDate;
-    private int hoursDurationArrival;
-    private int minutesDurationArrival;
-    private int hoursDurationScale;
-    private int minutesDurationScale;
     
-
-    public Flight(String id, Plane plane, Location departureLocation, Location arrivalLocation, LocalDateTime departureDate, int hoursDurationArrival, int minutesDurationArrival) {
+    // Dependency Inversion Principle: Depend on abstraction, not concretion
+    private final PassengerManagement passengerService;
+    
+    public Flight(String id, Plane plane, FlightRoute route, 
+                  LocalDateTime departureDate, PassengerManagement passengerService) {
         this.id = id;
-        this.passengers = new ArrayList<>();
         this.plane = plane;
-        this.departureLocation = departureLocation;
-        this.arrivalLocation = arrivalLocation;
+        this.route = route;
         this.departureDate = departureDate;
-        this.hoursDurationArrival = hoursDurationArrival;
-        this.minutesDurationArrival = minutesDurationArrival;
-        
-        this.plane.addFlight(this);
-    }
-
-    public Flight(String id, Plane plane, Location departureLocation, Location scaleLocation, Location arrivalLocation, LocalDateTime departureDate, int hoursDurationArrival, int minutesDurationArrival, int hoursDurationScale, int minutesDurationScale) {
-        this.id = id;
-        this.passengers = new ArrayList<>();
-        this.plane = plane;
-        this.departureLocation = departureLocation;
-        this.scaleLocation = scaleLocation;
-        this.arrivalLocation = arrivalLocation;
-        this.departureDate = departureDate;
-        this.hoursDurationArrival = hoursDurationArrival;
-        this.minutesDurationArrival = minutesDurationArrival;
-        this.hoursDurationScale = hoursDurationScale;
-        this.minutesDurationScale = minutesDurationScale;
-        
-        this.plane.addFlight(this);
+        this.passengerService = passengerService;
     }
     
-    public void addPassenger(Passenger passenger) {
-        this.passengers.add(passenger);
-    }
-    
+    // Simple getters - no business logic
     public String getId() {
         return id;
     }
-
-    public Location getDepartureLocation() {
-        return departureLocation;
-    }
-
-    public Location getScaleLocation() {
-        return scaleLocation;
-    }
-
-    public Location getArrivalLocation() {
-        return arrivalLocation;
-    }
-
-    public LocalDateTime getDepartureDate() {
-        return departureDate;
-    }
-
-    public int getHoursDurationArrival() {
-        return hoursDurationArrival;
-    }
-
-    public int getMinutesDurationArrival() {
-        return minutesDurationArrival;
-    }
-
-    public int getHoursDurationScale() {
-        return hoursDurationScale;
-    }
-
-    public int getMinutesDurationScale() {
-        return minutesDurationScale;
-    }
-
+    
     public Plane getPlane() {
         return plane;
     }
-
+    
+    public FlightRoute getRoute() {
+        return route;
+    }
+    
+    public LocalDateTime getDepartureDate() {
+        return departureDate;
+    }
+    
     public void setDepartureDate(LocalDateTime departureDate) {
         this.departureDate = departureDate;
     }
-        
-    public void delay(int hours, int minutes) {
-        this.departureDate = this.departureDate.plusHours(hours).plusMinutes(minutes);
-    }
     
-    public int getNumPassengers() {
-        return passengers.size();
+    public PassengerManagement getPassengerService() {
+        return passengerService;
     }
-    
-    public ArrayList<Passenger> getPassengers() {
-        return passengers;
-    }
-    
-    public LocalDateTime calculateArrivalDate() {
-        return departureDate.plusHours(hoursDurationScale).plusHours(hoursDurationArrival).plusMinutes(minutesDurationScale).plusMinutes(minutesDurationArrival);
-    }
-    
 }
