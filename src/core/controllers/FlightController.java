@@ -4,17 +4,17 @@
  */
 package core.controllers;
 
-import core.controllers.utils.FlightAdapter;
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
+import core.models.Flight;
 import core.models.Location;
 import core.models.Passenger;
 import core.models.Plane;
-import core.models.solid.flight.FlightScheduling;
 import core.models.storages.FlightStorage;
 import core.models.storages.LocationStorage;
 import core.models.storages.PassengerStorage;
 import core.models.storages.PlaneStorage;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -23,12 +23,11 @@ import java.time.LocalDateTime;
  */
 public class FlightController {
     
-     public static Response createFlight(String id, String planeId, String departureLocationId, String scaleLocationId, String arrivalLocationId, String year, String month, String day, String hours, String minutes, String hoursDurationArrival, String minutesDurationArrival, String hoursDurationScale, String minutesDurationScale) {
+    public static Response createFlight(String id, String planeId, String departureLocationId, String scaleLocationId, String arrivalLocationId, String year, String month, String day, String hours, String minutes, String hoursDurationArrival, String minutesDurationArrival, String hoursDurationScale, String minutesDurationScale) {
         try {
             int intHoursArrival, intMinutesArrival, intHoursScale, intMinutesScale;
             int intYear, intMonth, intDay, intHours, intMinutes;
             
-            // EXACT same validation as your original
             if (id.trim().equals("") || !id.matches("[A-Z]{3}\\d{3}")) {
                 return new Response("Invalid flight ID format. Must be XXXYYY", Status.BAD_REQUEST);
             }
@@ -50,7 +49,6 @@ public class FlightController {
                 return new Response("Arrival location not found", Status.NOT_FOUND);
             }
             
-            // EXACT same year validation
             try {
                 intYear = Integer.parseInt(year);
                 if (year.length() > 4) {
@@ -65,8 +63,6 @@ public class FlightController {
             } catch (NumberFormatException e) {  
                 return new Response("Year must be just numeric", Status.BAD_REQUEST);
             }
-            
-            // EXACT same month validation
             try {
                 intMonth = Integer.parseInt(month);
                 if (intMonth < 1 || intMonth > 12) {
@@ -75,8 +71,6 @@ public class FlightController {
             } catch (NumberFormatException e) {
                 return new Response("Month must be selected", Status.BAD_REQUEST);
             }
-            
-            // EXACT same day validation
             try {
                 intDay = Integer.parseInt(day);
                 if (intDay < 1 || intDay > 31) {
@@ -86,7 +80,6 @@ public class FlightController {
                 return new Response("Day must be selected", Status.BAD_REQUEST);
             }
             
-            // EXACT same hours validation
             try {
                 intHours = Integer.parseInt(hours);
                 if (intHours < 0 || intHours > 23) {
@@ -96,7 +89,6 @@ public class FlightController {
                 return new Response("Hours must be numeric", Status.BAD_REQUEST);
             }
             
-            // EXACT same minutes validation
             try {
                 intMinutes = Integer.parseInt(minutes);
                 if (intMinutes < 0 || intMinutes > 59) {
@@ -108,7 +100,6 @@ public class FlightController {
             
             LocalDateTime dateDepartureDate = LocalDateTime.of(intYear, intMonth, intDay, intHours, intMinutes);
             
-            // EXACT same arrival duration validation
             try {
                 intHoursArrival = Integer.parseInt(hoursDurationArrival);
                 if (intHoursArrival < 0 || intHoursArrival > 23) {
@@ -127,29 +118,23 @@ public class FlightController {
                 return new Response("Minutes must be numeric", Status.BAD_REQUEST);
             }
             
-            // Use enhanced storage that maintains your exact interface
             FlightStorage flightStorage = FlightStorage.getInstance();
-            
-            // EXACT same logic for direct vs connecting flights
             if (scaleLocationId == null || scaleLocationId.trim().equals("")){
                 
                 if (!hoursDurationScale.equals("0") || !minutesDurationScale.equals("0")) {
                     return new Response("If no scale location is provided, scale duration must be 00:00", Status.BAD_REQUEST);
                 }
-                
-                // Create direct flight using SOLID architecture but same interface
-                if (!flightStorage.addDirectFlight(id, plane, departureLocation, arrivalLocation, dateDepartureDate, intHoursArrival, intMinutesArrival)) {
+            
+                if (!flightStorage.addFlight(new Flight(id, plane, departureLocation, arrivalLocation, dateDepartureDate, intHoursArrival, intMinutesArrival))) {
                     return new Response("A flight with that id already exists", Status.BAD_REQUEST);
                 }
                 return new Response("Flight created successfully", Status.CREATED);
-                
             } else {
                 Location scaleLocation = locationStorage.getLocation(scaleLocationId);
                 if (scaleLocation == null) {
                     return new Response("Scale location don't exists", Status.BAD_REQUEST);
                 }
                 
-                // EXACT same scale duration validation
                 try {
                     intHoursScale = Integer.parseInt(hoursDurationScale);
                     if (intHoursScale < 0 || intHoursScale > 23) {
@@ -168,8 +153,7 @@ public class FlightController {
                     return new Response("Minutes must be numeric", Status.BAD_REQUEST);
                 }
 
-                // Create connecting flight using SOLID architecture but same interface
-                if (!flightStorage.addConnectingFlight(id, plane, departureLocation, scaleLocation, arrivalLocation, dateDepartureDate, intHoursArrival, intMinutesArrival, intHoursScale, intMinutesScale)) {
+                if (!flightStorage.addFlight(new Flight(id, plane, departureLocation, scaleLocation, arrivalLocation, dateDepartureDate, intHoursArrival, intMinutesArrival, intHoursScale, intMinutesScale))) {
                     return new Response("A flight with that id already exists", Status.BAD_REQUEST);
                 }
                 return new Response("Flight created successfully", Status.CREATED);
@@ -183,14 +167,12 @@ public class FlightController {
         try {
             long longPassengerId;     
             
-            // Use enhanced storage but same interface
             FlightStorage flightStorage = FlightStorage.getInstance();
-            FlightAdapter flight = flightStorage.getFlight(flightId);
+            Flight flight = (Flight) flightStorage.getFlight(flightId);
             if (flight == null) {
                 return new Response("Flight not found", Status.BAD_REQUEST);
             }
             
-            // EXACT same passenger ID validation
             try {
                 longPassengerId = Long.parseLong(passengerId);      
                 if (longPassengerId < 0 || longPassengerId > 999_999_999_999_999L) {
@@ -206,19 +188,16 @@ public class FlightController {
                 return new Response("Passenger not found", Status.NOT_FOUND);
             }
             
-            // EXACT same capacity validation
             if(flight.getNumPassengers() >= flight.getPlane().getMaxCapacity()){
                 return new Response("Plane already have max capacity", Status.BAD_REQUEST);
             }
 
-            // EXACT same duplicate passenger validation
             if (flight.getPassengers().contains(passenger)) {
                 return new Response("Passenger already added to flight", Status.BAD_REQUEST);
             }
 
-            // Add passenger using adapter (maintains same functionality)
             flight.addPassenger(passenger);
-            passenger.addFlight(flight.getModernFlight());
+            passenger.addFlight(flight);
             return new Response("Passenger added successfully", Status.OK);
 
         } catch (Exception e) {
@@ -230,9 +209,8 @@ public class FlightController {
         try {
             int intHours, intMinutes;
             
-            // EXACT same validation
             if (flightId.isEmpty()) {
-                return new Response("Flight Id is required", Status.BAD_REQUEST);
+            return new Response("Flight Id is required", Status.BAD_REQUEST);
             }
             
             try {
@@ -249,15 +227,12 @@ public class FlightController {
                 return new Response("Hours and minutes must be numeric", Status.BAD_REQUEST);
             }
             
-            // Use enhanced storage but same interface
             FlightStorage flightStorage = FlightStorage.getInstance();
-            FlightAdapter flight = flightStorage.getFlight(flightId);
+            Flight flight = flightStorage.getFlight(flightId);
             
             if (flight == null) {
-                return new Response("Flight not found", Status.NOT_FOUND);
+            return new Response("Flight not found", Status.NOT_FOUND);
             }
-            
-            // Use adapter delay method (maintains same functionality)
             flight.delay(intHours, intMinutes);
             return new Response("Flight delayed successfully", Status.OK);
         } catch (Exception ex) {

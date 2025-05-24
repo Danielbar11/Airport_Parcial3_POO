@@ -8,7 +8,6 @@ import core.controllers.FlightController;
 import core.controllers.LocationController;
 import core.controllers.PassengerController;
 import core.controllers.PlaneController;
-import core.controllers.utils.FlightAdapter;
 import core.controllers.utils.Response;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class AirportFrame extends javax.swing.JFrame {
     private ArrayList<Passenger> passengers;
     private ArrayList<Plane> planes;
     private ArrayList<Location> locations;
-    private ArrayList<FlightAdapter> flights;
+    private ArrayList<Flight> flights;
 
     public AirportFrame() {
         initComponents();
@@ -1640,10 +1639,10 @@ public class AirportFrame extends javax.swing.JFrame {
             }
         }
 
-        ArrayList<FlightAdapter> flights = passenger.getFlightsA();
+        ArrayList<Flight> flights = passenger.getFlights();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        for (FlightAdapter flight : flights) {
+        for (Flight flight : flights) {
             model.addRow(new Object[]{flight.getId(), flight.getDepartureDate(), flight.calculateArrivalDate()});
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -1661,7 +1660,7 @@ public class AirportFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
         model.setRowCount(0);
-        for (FlightAdapter flight : this.flights) {
+        for (Flight flight : this.flights) {
             model.addRow(new Object[]{flight.getId(), flight.getDepartureLocation().getAirportId(), flight.getArrivalLocation().getAirportId(), (flight.getScaleLocation() == null ? "-" : flight.getScaleLocation().getAirportId()), flight.getDepartureDate(), flight.calculateArrivalDate(), flight.getPlane().getId(), flight.getNumPassengers()});
         }
     }//GEN-LAST:event_jButton4ActionPerformed

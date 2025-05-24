@@ -1,39 +1,53 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package core.models;
 
 import java.util.ArrayList;
+import core.models.abstracts.AbstractPlane;
 
 /**
- *
+ * Plane implementation following SOLID principles
+ * Maintains exact same functionality as original
+ * 
  * @author edangulo
  */
-public class Plane {
+public class Plane extends AbstractPlane {
     
-    private final String id;
     private String brand;
     private String model;
     private final int maxCapacity;
     private String airline;
     private ArrayList<Flight> flights;
+    
+    // Service dependency (following DIP)
+    private final IFlightManagementService flightService;
 
     public Plane(String id, String brand, String model, int maxCapacity, String airline) {
-        this.id = id;
+        super(id);
         this.brand = brand;
         this.model = model;
         this.maxCapacity = maxCapacity;
         this.airline = airline;
         this.flights = new ArrayList<>();
+        
+        // Initialize service via factory (DIP)
+        PlaneServiceFactory factory = new PlaneServiceFactory();
+        this.flightService = factory.createFlightManagementService(this.flights);
     }
 
+    // Business methods - delegate to service but maintain exact same interface
+    
+    @Override
     public void addFlight(Flight flight) {
-        this.flights.add(flight);
+        flightService.addFlight(flight);
     }
     
+    @Override
+    public int getNumFlights() {
+        return flightService.getFlightCount();
+    }
+    
+    // All getters remain exactly the same
     public String getId() {
-        return id;
+        return super.getId();
     }
 
     public String getBrand() {
@@ -55,9 +69,4 @@ public class Plane {
     public ArrayList<Flight> getFlights() {
         return flights;
     }
-    
-    public int getNumFlights() {
-        return flights.size();
-    }
-    
 }

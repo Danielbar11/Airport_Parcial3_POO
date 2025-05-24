@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package core.models;
 
-import core.controllers.utils.FlightAdapter;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -23,7 +18,6 @@ public class Passenger {
     private long phone;
     private String country;
     private ArrayList<Flight> flights;
-    private ArrayList<FlightAdapter> flightsA;
 
     public Passenger(long id, String firstname, String lastname, LocalDate birthDate, int countryPhoneCode, long phone, String country) {
         this.id = id;
@@ -38,8 +32,6 @@ public class Passenger {
 
     public void addFlight(Flight flight) {
         this.flights.add(flight);
-        FlightAdapter flightA = new FlightAdapter(flight);
-        this.flightsA.add(flightA);
     }
     
     public long getId() {
@@ -72,9 +64,6 @@ public class Passenger {
 
     public ArrayList<Flight> getFlights() {
         return flights;
-    }
-    public ArrayList<FlightAdapter> getFlightsA() {
-        return flightsA;
     }
 
     public void setFirstname(String firstname) {
