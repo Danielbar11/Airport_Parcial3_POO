@@ -17,8 +17,7 @@ public class Location extends AbstractLocation {
     private double airportLatitude;
     private double airportLongitude;
 
-    public Location(String airportId, String airportName, String airportCity, 
-                   String airportCountry, double airportLatitude, double airportLongitude) {
+    public Location(String airportId, String airportName, String airportCity, String airportCountry, double airportLatitude, double airportLongitude) {
         super(airportId);
         this.airportName = airportName;
         this.airportCity = airportCity;

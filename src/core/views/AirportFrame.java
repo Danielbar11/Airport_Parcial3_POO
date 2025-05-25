@@ -40,7 +40,7 @@ public class AirportFrame extends javax.swing.JFrame {
         this.generateHours();
         this.generateMinutes();
         this.blockPanels();
-        //PassengerController.setPassengerIdUserComboBox(userSelectCombo);
+        PassengerController.setPassengerIdUserComboBox(userSelectComboBox);
     }
 
     private void blockPanels() {
@@ -102,7 +102,7 @@ public class AirportFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         user = new javax.swing.JRadioButton();
         administrator = new javax.swing.JRadioButton();
-        userSelect = new javax.swing.JComboBox<>();
+        userSelectComboBox = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -291,14 +291,14 @@ public class AirportFrame extends javax.swing.JFrame {
         });
         jPanel1.add(administrator, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 164, -1, -1));
 
-        userSelect.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        userSelect.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select User" }));
-        userSelect.addActionListener(new java.awt.event.ActionListener() {
+        userSelectComboBox.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        userSelectComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select User" }));
+        userSelectComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userSelectActionPerformed(evt);
+                userSelectComboBoxActionPerformed(evt);
             }
         });
-        jPanel1.add(userSelect, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 300, 130, -1));
+        jPanel1.add(userSelectComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 300, 130, -1));
 
         jTabbedPane1.addTab("Administration", jPanel1);
 
@@ -1400,7 +1400,7 @@ public class AirportFrame extends javax.swing.JFrame {
     private void administratorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_administratorActionPerformed
         if (user.isSelected()) {
             user.setSelected(false);
-            userSelect.setSelectedIndex(0);
+            userSelectComboBox.setSelectedIndex(0);
 
         }
         for (int i = 1; i < jTabbedPane1.getTabCount(); i++) {
@@ -1455,7 +1455,7 @@ public class AirportFrame extends javax.swing.JFrame {
             txtCountryRegPass.setText("");
         }
 
-        this.userSelect.addItem("" + id);
+        this.userSelectComboBox.addItem("" + id);
     }//GEN-LAST:event_btnRegPassengerActionPerformed
 
     private void btnCreatePlaneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreatePlaneActionPerformed
@@ -1630,7 +1630,7 @@ public class AirportFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        long passengerId = Long.parseLong(userSelect.getItemAt(userSelect.getSelectedIndex()));
+        long passengerId = Long.parseLong(userSelectComboBox.getItemAt(userSelectComboBox.getSelectedIndex()));
 
         Passenger passenger = null;
         for (Passenger p : this.passengers) {
@@ -1687,10 +1687,10 @@ public class AirportFrame extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jButton13ActionPerformed
 
-    private void userSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userSelectActionPerformed
+    private void userSelectComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userSelectComboBoxActionPerformed
         try {
-            String id = userSelect.getSelectedItem().toString();
-            if (! id.equals(userSelect.getItemAt(0))) {
+            String id = userSelectComboBox.getSelectedItem().toString();
+            if (! id.equals(userSelectComboBox.getItemAt(0))) {
                 txtIdUpdate.setText(id);
                 txtIdAddToFlight.setText(id);
             }
@@ -1700,7 +1700,7 @@ public class AirportFrame extends javax.swing.JFrame {
             }
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_userSelectActionPerformed
+    }//GEN-LAST:event_userSelectComboBoxActionPerformed
 
     private void hourDepartureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hourDepartureActionPerformed
         // TODO add your handling code here:
@@ -1851,6 +1851,6 @@ public class AirportFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtYearRegPass;
     private javax.swing.JTextField txtYearUpdate;
     private javax.swing.JRadioButton user;
-    private javax.swing.JComboBox<String> userSelect;
+    private javax.swing.JComboBox<String> userSelectComboBox;
     // End of variables declaration//GEN-END:variables
 }

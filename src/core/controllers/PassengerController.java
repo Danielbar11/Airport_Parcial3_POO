@@ -6,6 +6,8 @@ import core.models.Passenger;
 import core.models.storages.PassengerStorage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import javax.swing.JComboBox;
 
 
 public class PassengerController {
@@ -213,6 +215,15 @@ public class PassengerController {
         }
     }
     
+    public static void setPassengerIdUserComboBox(JComboBox<String> comboBox) {
+        comboBox.removeAllItems();
+        ArrayList<Passenger> passengers = PassengerStorage.getInstance().getAllPassengers();
+
+        for (Passenger p : passengers) {
+            comboBox.addItem(p.getId() + " - " + p.getFullname());
+        }
+    }
+    
     //get passenger
-    //set passenger id user combo box
+    
 }
