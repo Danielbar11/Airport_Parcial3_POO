@@ -4,6 +4,8 @@ import core.controllers.utils.Response;
 import core.controllers.utils.Status;
 import core.models.Plane;
 import core.models.storages.PlaneStorage;
+import java.util.ArrayList;
+import javax.swing.JComboBox;
 
 
 public class PlaneController {
@@ -51,7 +53,14 @@ public class PlaneController {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
-    
-    //Set id plane combo box
+
+    public static void setPlaneIdComboBox(JComboBox<String> cb) {
+        cb.removeAllItems();
+        ArrayList<Plane> planes = PlaneStorage.getInstance().getAllPlanes();
+
+        for (Plane p : planes) {
+            cb.addItem(p.getId());
+        }
+    }
     
 }

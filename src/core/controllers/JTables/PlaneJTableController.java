@@ -9,10 +9,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class PlaneJTableController {
     
-    public static void showPlanes(JTable planesTable) {
+    public static void showAllPlanes(JTable planesTable) {
         ArrayList<Plane> planes = PlaneStorage.getInstance().getAllPlanes();
         
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"ID", "Brand", "Model", "Maximum Capacity", "Airline", "Number of flights"}, 0);
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"ID", "Brand", "Model", "Max Capacity", "Airline", "Number Flights"}, 0);
         
         for (Plane p : planes) {
                 model.addRow(new Object[]{p.getId(), p.getBrand(), p.getModel(), p.getMaxCapacity(), p.getAirline(), p.getNumFlights()});

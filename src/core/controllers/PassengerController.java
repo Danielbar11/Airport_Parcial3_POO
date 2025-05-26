@@ -215,15 +215,34 @@ public class PassengerController {
         }
     }
     
-    public static void setPassengerIdUserComboBox(JComboBox<String> comboBox) {
-        comboBox.removeAllItems();
+    public static void setPassengerIdUserComboBox(JComboBox<String> cb) {
+        cb.removeAllItems();
         ArrayList<Passenger> passengers = PassengerStorage.getInstance().getAllPassengers();
 
         for (Passenger p : passengers) {
-            comboBox.addItem(p.getId() + " - " + p.getFullname());
+            cb.addItem(p.getId() + " - " + p.getFullname());
         }
     }
     
-    //get passenger
+    public static Response validatePassengerId(String passengerId) {
+        try {
+            long longId;
+            try {
+                if (passengerId.trim().equals("")) {
+                    return new Response("Id must be not empty", Status.BAD_REQUEST);
+                }
+                longId = Long.parseLong(passengerId);               
+                if (longId < 0 || longId > 999_999_999_999_999L) {
+                    return new Response("Id must be in the range 0 - 999999999999999", Status.BAD_REQUEST);
+                }
+            } catch (NumberFormatException ex) {
+                return new Response("Id must be numeric", Status.BAD_REQUEST);
+            }
+            
+            return new Response("ID validated", Status.OK);
+        } catch (Exception e) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
     
 }

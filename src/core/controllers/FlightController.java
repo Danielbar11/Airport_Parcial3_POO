@@ -16,6 +16,8 @@ import core.models.storages.PassengerStorage;
 import core.models.storages.PlaneStorage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -240,8 +242,13 @@ public class FlightController {
         }
     }
     
-    //set flight id combo box
-    //set departure location
-    // set arrival location
-    // set scale location 
+    public static void setFlightIdComboBox(JComboBox<String> cb) {
+        cb.removeAllItems();
+        ArrayList<Flight> flights = FlightStorage.getInstance().getAllFlights();
+
+        for (Flight f : flights) {
+            cb.addItem(f.getId());
+        }
+    }
+    
 }

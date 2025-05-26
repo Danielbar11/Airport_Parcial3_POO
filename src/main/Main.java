@@ -7,6 +7,7 @@ package main;
 import com.formdev.flatlaf.FlatDarkLaf;
 import core.views.AirportFrame;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -22,14 +23,12 @@ public class Main {
 
         try {
             UIManager.setLookAndFeel(new FlatDarkLaf());
-        } catch (Exception ex) {
+        } catch (UnsupportedLookAndFeelException ex) {
             System.err.println("Failed to initialize LaF");
         }
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AirportFrame().setVisible(true);
-            }
+
+        java.awt.EventQueue.invokeLater(() -> {
+            new AirportFrame().setVisible(true);
         });
     }
     

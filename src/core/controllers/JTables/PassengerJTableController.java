@@ -9,10 +9,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class PassengerJTableController {
     
-    public static void showPassengers(JTable passengersTable) {
+    public static void showAllPassengers(JTable passengersTable) {
         ArrayList<Passenger> passengers = PassengerStorage.getInstance().getAllPassengers();
         
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"ID", "Name", "Birth date", "Age", "Phone", "Country", "Number of flights"}, 0);
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"ID", "Name", "Birthdate", "Age", "Phone", "Country", "Num Flights"}, 0);
         
         for (Passenger p : passengers) {
                 model.addRow(new Object[]{p.getId(), p.getFullname(), p.getBirthDate(), p.calculateAge(), p.generateFullPhone(), p.getCountry(), p.getNumFlights()});

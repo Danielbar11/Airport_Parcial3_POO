@@ -8,6 +8,8 @@ import core.controllers.utils.Response;
 import core.controllers.utils.Status;
 import core.models.Location;
 import core.models.storages.LocationStorage;
+import java.util.ArrayList;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -81,6 +83,33 @@ public class LocationController {
             
         } catch (Exception ex) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    public static void setDepartureLocationIdComboBox(JComboBox<String> cb) {
+        cb.removeAllItems();
+        ArrayList<Location> locations = LocationStorage.getInstance().getAllLocations();
+
+        for (Location l : locations) {
+            cb.addItem(l.getAirportId() + " - " + l.getAirportCity());
+        }
+    }
+    
+    public static void setScaleLocationIdComboBox(JComboBox<String> cb) {
+        cb.removeAllItems();
+        ArrayList<Location> locations = LocationStorage.getInstance().getAllLocations();
+
+        for (Location l : locations) {
+            cb.addItem(l.getAirportId() + " - " + l.getAirportCity());
+        }
+    }
+    
+    public static void setArrivalLocationIdComboBox(JComboBox<String> cb) {
+        cb.removeAllItems();
+        ArrayList<Location> locations = LocationStorage.getInstance().getAllLocations();
+
+        for (Location l : locations) {
+            cb.addItem(l.getAirportId() + " - " + l.getAirportCity());
         }
     }
     
