@@ -5,6 +5,10 @@
 package main;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import core.JsonsReaders.JsonFlightReader;
+import core.JsonsReaders.JsonLocationReader;
+import core.JsonsReaders.JsonPassengerReader;
+import core.JsonsReaders.JsonPlaneReader;
 import core.views.AirportFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -15,10 +19,13 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Main {
     
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
+        
+        JsonFlightReader.readJsonFlights();
+        JsonLocationReader.readJsonLocations();
+        JsonPassengerReader.readJsonPassengers();
+        JsonPlaneReader.readJsonPlanes();
+        
         System.setProperty("flatlaf.useNativeLibrary", "false");
 
         try {
